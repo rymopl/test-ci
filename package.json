@@ -1,8 +1,12 @@
 {
   "name": "ci-test",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.0",
   "private": true,
   "type": "module",
+
+  "publishConfig": {
+		"registry": "https://npm.pkg.github.com/@rymopl"
+	},
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
