@@ -1,0 +1,72 @@
+name: CI
+on: 
+  push:
+    branches-ignore:
+      - main
+      - 'feature/**'
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 21.x 🌿
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.x'
+          cache: 'npm'
+      - run: npm ci
+        name: Run npm ci 💿
+        env:
+          TYLKO_PKG_INSTALL_TOKEN: ${{secrets.TYLKO_PKG_INSTALL}}
+      - run: npm run test:coverage
+        name: Run test:coverage 🤖
+
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 21.x 🌿
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.x'
+          cache: 'npm'
+      - run: npm ci
+        name: Run npm ci 💿
+        env:
+          TYLKO_PKG_INSTALL_TOKEN: ${{secrets.TYLKO_PKG_INSTALL}}
+      - run: npm run lint
+        name: Run lint 🤦‍♀️
+
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 21.x 🌿
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.x'
+          cache: 'npm'
+      - run: npm ci
+        name: Run npm ci 💿
+        env:
+          TYLKO_PKG_INSTALL_TOKEN: ${{secrets.TYLKO_PKG_INSTALL}}
+      - run: npm run format:ci
+        name: Run format:ci 📝
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 21.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.x'
+          cache: 'npm'
+      - run: npm ci
+        name: Run npm ci 💿
+        env:
+          TYLKO_PKG_INSTALL_TOKEN: ${{secrets.TYLKO_PKG_INSTALL}}
+      - run: npm run build --if-present
