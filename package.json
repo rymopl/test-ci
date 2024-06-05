@@ -1,10 +1,16 @@
 {
-  "name": "ci-test",
-  "version": "0.0.1-alpha.1",
+
+  "name": "@rymopl/ci-test",
+  "version": "0.0.0",
   "private": true,
   "type": "module",
+
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@rymopl"
+		"registry": "https://npm.pkg.github.com/@rymopl"
+	},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rymopl/test-ci.git"
   },
   "scripts": {
     "dev": "vite",
