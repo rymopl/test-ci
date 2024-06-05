@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - 'feature/**'
+      - 'release/**'
 
 jobs:
   publish:
@@ -36,8 +36,8 @@ jobs:
         npm version patch -m "Bump package version to %s [skip ci]"
         git push --follow-tags
 
-    - name: Create alpha package if feature branch
-      if: contains(github.ref, 'feature')
+    - name: Create alpha package if release branch
+      if: contains(github.ref, 'release')
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"

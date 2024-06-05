@@ -1,0 +1,13 @@
+{
+	"$schema": "https://json.schemastore.org/prettierrc",
+	"tabWidth": 2,
+	"useTabs": true,
+	"printWidth": 120,
+	"semi": true,
+	"trailingComma": "es5",
+	"singleQuote": true,
+	"endOfLine": "lf",
+	"plugins": ["prettier-plugin-classnames"],
+	"customAttributes": ["className"],
+	"customFunctions": ["classNames"]
+}
