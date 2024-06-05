@@ -1,16 +1,14 @@
 {
   "name": "@rymopl/ci-test",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "type": "module",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@rymopl"
   },
-
   "repository": {
     "type": "git",
     "url": "https://github.com/rymopl/test-ci.git"
   },
-
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
@@ -21,11 +19,9 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
-
   "dependencies": {
     "vue": "3.4.27"
   },
-
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",
@@ -48,4 +44,3 @@
     "vue-tsc": "^2.0.11"
   }
 }
-
