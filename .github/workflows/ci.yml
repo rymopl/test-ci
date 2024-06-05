@@ -1,5 +1,9 @@
 name: CI
-on: push
+on: 
+  push:
+    branches:
+      - main
+      - 'feature/**'
 
 jobs:
   build:
@@ -19,7 +23,7 @@ jobs:
       run: npm ci
 
     - name: Run unit tests
-      run: npm test
+      run: npm test:unit
 
     - name: Bump version and push tag
       run: |
@@ -50,4 +54,4 @@ jobs:
     - name: Publish package
       run: npm publish
       env:
-        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        NODE_AUTH_TOKEN: ${{secrets.CI_TOKEN}}
