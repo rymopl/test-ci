@@ -41,19 +41,19 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        npm version prerelease --preid=alpha -m "Bump package version to %s [skip ci]"
-        git push --follow-tags
-
-
-        # CURRENT_VERSION=$(npm version | grep @rymopl | sed 's/.*: "\(.*\)",/\1/')
-        # PUBLISHED_VERSIONS=$(npm view @rymopl/ci-test versions --json)
-        # if echo ${PUBLISHED_VERSIONS} | grep -w "\"${CURRENT_VERSION}-alpha\""; then
-        #   echo "Alpha version ${CURRENT_VERSION} is already published. Bumping alpha version..."
-        #   npm version prerelease --preid=alpha -m "Automatically bump alpha package version to %s [skip ci]"
-        # else
-        #   npm version prerelease --preid=alpha -m "Bump alpha package version to %s [skip ci]"
-        # fi
+        # npm version prerelease --preid=alpha -m "Bump package version to %s [skip ci]"
         # git push --follow-tags
+
+
+        CURRENT_VERSION=$(npm version | grep @rymopl | sed 's/.*: "\(.*\)",/\1/')
+        PUBLISHED_VERSIONS=$(npm view @rymopl/ci-test versions --json)
+        if echo ${PUBLISHED_VERSIONS} | grep -w "\"${CURRENT_VERSION}-alpha\""; then
+          echo "Alpha version ${CURRENT_VERSION} is already published. Bumping alpha version..."
+          npm version prerelease --preid=alpha -m "Automatically bump alpha package version to %s [skip ci]"
+        else
+          npm version prerelease --preid=alpha -m "Bump alpha package version to %s [skip ci]"
+        fi
+        git push --follow-tags
 
     - name: Create beta package if hotfix branch
       if: contains(github.ref, 'hotfix')
