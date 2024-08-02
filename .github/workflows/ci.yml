@@ -41,8 +41,21 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        npm version prerelease --preid=alpha -m "Bump package version to %s [skip ci]"
+        # npm version prerelease --preid=alpha -m "Bump package version to %s [skip ci]"
+        # git push --follow-tags
+
+
+        CURRENT_VERSION=$(npm version | grep @rymopl | sed 's/.*: "\(.*\)",/\1/')
+        PUBLISHED_VERSIONS=$(npm view @rymopl/ci-test versions --json)
+        if echo ${PUBLISHED_VERSIONS} | grep -w "\"${CURRENT_VERSION}-alpha\""; then
+          echo "Alpha version ${CURRENT_VERSION} is already published. Bumping alpha version..."
+          npm version prerelease --preid=alpha -m "Automatically bump alpha package version to %s [skip ci]"
+        else
+          npm version prerelease --preid=alpha -m "Bump alpha package version to %s [skip ci]"
+        fi
         git push --follow-tags
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.CI_TOKEN_READ_WRITE }}
 
     - name: Create beta package if hotfix branch
       if: contains(github.ref, 'hotfix')
@@ -52,10 +65,13 @@ jobs:
         npm version prerelease --preid=beta -m "Bump package version to %s [skip ci]"
         git push --follow-tags
 
+    - name: Debug environment variables
+      run: env
+      
     - name: Build library
       run: npm run build
 
     - name: Publish package
       run: npm publish
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.CI_TOKEN_WRITE }}
+        NODE_AUTH_TOKEN: ${{ secrets.CI_TOKEN_READ_WRITE }}
