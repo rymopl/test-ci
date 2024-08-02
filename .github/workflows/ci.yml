@@ -41,23 +41,20 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        # npm version prerelease --preid=alpha -m "Bump package version to %s [skip ci]"
-        # git push --follow-tags
-
-
-        CURRENT_VERSION=$(npm version | grep @rymopl | sed 's/.*: "\(.*\)",/\1/')
+        
+        CURRENT_VERSION=$(node -p "require('./package.json').version")
         PUBLISHED_VERSIONS=$(npm view @rymopl/ci-test versions --json)
         echo "Published versions: ${PUBLISHED_VERSIONS}"
-    
+        
         LAST_ALPHA_VERSION=$(echo ${PUBLISHED_VERSIONS} | jq -r '.[]' | grep -E "${CURRENT_VERSION}-alpha.[0-9]+" | sort -V | tail -n 1)
         echo "Last alpha version: ${LAST_ALPHA_VERSION}"
-    
+        
         if [ -z "${LAST_ALPHA_VERSION}" ]; then
           NEW_ALPHA_VERSION="${CURRENT_VERSION}-alpha.0"
         else
           NEW_ALPHA_VERSION=$(echo ${LAST_ALPHA_VERSION} | awk -F. '{print $1"."$2"."$3"-alpha."$4+1}')
         fi
-    
+        
         echo "New alpha version: ${NEW_ALPHA_VERSION}"
         npm version ${NEW_ALPHA_VERSION} -m "Bump alpha package version to %s [skip ci]"
         git push --follow-tags
